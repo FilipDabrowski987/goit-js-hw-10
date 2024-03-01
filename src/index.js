@@ -1,34 +1,28 @@
-//axios.defaults.headers.common["x-api-key"] = 'api_key=live_oLlF3i9CosWMP9pQL5psZHR7F8jMmBHEDuHoIiQwiJ8RAR3MtiVmqBGOn2oFUQ3y';
+//axios.defaults.headers.common["x-api-key"] = 'live_oLlF3i9CosWMP9pQL5psZHR7F8jMmBHEDuHoIiQwiJ8RAR3MtiVmqBGOn2oFUQ3y';
 
 import axios from "axios";
 
 const fetchBreedsBtn = document.querySelector(".btn");
+const breedsSelect = document.querySelector(".breed-select");
 
-fetchBreedsBtn.addEventListener("click", async () => {
-  try {
-    const breeds = await fetchBreeds();
-    console.log(breeds)
+fetchBreedsBtn.addEventListener("click", () => {
+    try {
+    axios.defaults.headers.common["x-api-key"] = 'live_oLlF3i9CosWMP9pQL5psZHR7F8jMmBHEDuHoIiQwiJ8RAR3MtiVmqBGOn2oFUQ3y';
+    
+    axios
+        .get(`https://api.thecatapi.com/v1/breeds`)
+        .then(response => response.data)
+        .then(data => renderSelect(data));
   } catch (error) {
     console.log(error);
   }
 });
 
-async function fetchBreeds() {
- const response = await axios.get(
-   `https://api.thecatapi.com/v1/breeds`);
-  return response.data;
-}
-
-function renderBreeds(breeds) {
+function renderSelect(breeds) {
   const markup = breeds
-    .map(({ id, title, body, userId }) => {
-      return `<li>
-          <h2 class="post-title">${title.slice(0, 30)}</h2>
-          <p><b>Post id</b>: ${id}</p>
-          <p><b>Author id</b>: ${userId}</p>
-          <p class="post-body">${body}</p>
-        </li>`;
+    .map(({ id, name }) => {
+      return `<option value="${id}">${name}</option>`;
     })
     .join("");
-  breedList.insertAdjacentHTML("beforeend", markup);
+  breedsSelect.insertAdjacentHTML("beforeend", markup);
 }
