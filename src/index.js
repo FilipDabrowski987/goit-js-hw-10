@@ -22,6 +22,5 @@ function renderSelect(breeds) {
 };
 
 breedsSelect.addEventListener('change', (event) => {
-    axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${event.target.value}`)
-    .then(response => console.log(response.data));
+    fetchCatByBreed();
 });
