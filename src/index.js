@@ -3,6 +3,7 @@ import { fetchCatByBreed } from "./cat-api";
 
 const fetchBreedsBtn = document.querySelector(".btn");
 const breedsSelect = document.querySelector(".breed-select");
+const catInfo = document.querySelector(".cat-info");
 
 fetchBreedsBtn.addEventListener("click", () => {
     try {
@@ -22,5 +23,17 @@ function renderSelect(breeds) {
 };
 
 breedsSelect.addEventListener('change', (event) => {
-    fetchCatByBreed(event.target.value).then(data => console.log(data));
+    fetchCatByBreed(event.target.value).then(data => renderCat(data[0]));
 });
+
+function renderCat(catData) {
+    const { url } = catData;
+    const { description, name, temperament } = catData.breeds[0];
+    catInfo.insertAdjacentHTML("beforeend",
+        `<div>
+        <h2>${name}</h2>
+        <img src="${url}" alt="${name}"/>
+        <p>${description}</p>
+        <p>${temperament}</p>
+        </div>`);
+};
