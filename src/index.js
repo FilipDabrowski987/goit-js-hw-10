@@ -1,5 +1,5 @@
-import axios from "axios";
 import { fetchBreeds } from "./cat-api";
+import { fetchCatByBreed } from "./cat-api";
 
 const fetchBreedsBtn = document.querySelector(".btn");
 const breedsSelect = document.querySelector(".breed-select");
@@ -22,5 +22,5 @@ function renderSelect(breeds) {
 };
 
 breedsSelect.addEventListener('change', (event) => {
-    fetchCatByBreed();
+    fetchCatByBreed(event.target.value).then(data => console.log(data));
 });

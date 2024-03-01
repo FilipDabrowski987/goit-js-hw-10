@@ -9,7 +9,8 @@ export const fetchBreeds = () => {
 };
 
 export const fetchCatByBreed = breedId => {
-    axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${event.target.value}`)
-        .then(response => console.log(response.data));
+    return axios
+        .get(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}`)
+        .then(response => response.data);
 };
 
