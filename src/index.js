@@ -1,4 +1,5 @@
-import {fetchBreeds} from "./cat-api";
+import axios from "axios";
+import { fetchBreeds } from "./cat-api";
 
 const fetchBreedsBtn = document.querySelector(".btn");
 const breedsSelect = document.querySelector(".breed-select");
@@ -18,4 +19,9 @@ function renderSelect(breeds) {
     })
     .join("");
   breedsSelect.insertAdjacentHTML("beforeend", markup);
-}
+};
+
+breedsSelect.addEventListener('change', (event) => {
+    axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${event.target.value}`)
+    .then(response => console.log(response.data));
+});
