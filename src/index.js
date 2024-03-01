@@ -28,6 +28,7 @@ breedsSelect.addEventListener('change', (event) => {
 });
 
 function renderCat(catData) {
+    catInfo.innerHTML = '';
     const { url } = catData;
     const { description, name, temperament } = catData.breeds[0];
     catInfo.insertAdjacentHTML("beforeend",
