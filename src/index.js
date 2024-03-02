@@ -5,14 +5,17 @@ const catInfo = document.querySelector(".cat-info");
 const loader = document.querySelector(".loader");
 const error = document.querySelector(".error");
 
-    try {
-      loader.classList.remove('hidden');
-      breedsSelect.classList.add('hidden');
-      error.classList.add('hidden');
+try {
+  loader.classList.remove('hidden');
+  breedsSelect.classList.add('hidden');
+  error.classList.add('hidden');
 
-      fetchBreeds()
-        .then(data => renderSelect(data))
-        .catch(showError);
+  fetchBreeds()
+    .then(data => renderSelect(data))
+    .catch(showError);
+} catch (error) {
+  console.error(error);
+}
 
 function renderSelect(breeds) {
   const markup = breeds
@@ -55,4 +58,4 @@ function showError(errorMessage) {
   console.error(errorMessage);
   error.classList.remove('hidden');
   loader.classList.add('hidden');
-}
+};
