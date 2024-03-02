@@ -1,17 +1,18 @@
-import { fetchBreeds } from "./cat-api";
-import { fetchCatByBreed } from "./cat-api";
+import { fetchBreeds, fetchCatByBreed } from "./cat-api";
 
 const breedsSelect = document.querySelector(".breed-select");
 const catInfo = document.querySelector(".cat-info");
 const loader = document.querySelector(".loader");
+const error = document.querySelector(".error");
 
     try {
       loader.classList.remove('hidden');
       breedsSelect.classList.add('hidden');
-    fetchBreeds().then(data => renderSelect(data));
-  } catch (error) {
-    console.log(error);
-  };
+      error.classList.add('hidden');
+
+      fetchBreeds()
+        .then(data => renderSelect(data))
+        .catch(showError);
 
 function renderSelect(breeds) {
   const markup = breeds
@@ -19,16 +20,19 @@ function renderSelect(breeds) {
       return `<option value="${id}">${name}</option>`;
     })
     .join("");
-    breedsSelect.insertAdjacentHTML("beforeend", markup);
+    breedsSelect.innerHTML = markup;
     breedsSelect.classList.remove('hidden');
-  loader.classList.add('hidden');
+    loader.classList.add('hidden');
 };
 
 breedsSelect.addEventListener('change', (event) => {
     breedsSelect.classList.add('hidden');
     loader.classList.remove('hidden');
     catInfo.classList.add('hidden');
-    fetchCatByBreed(event.target.value).then(data => renderCat(data[0]));
+  
+    fetchCatByBreed(event.target.value)
+      .then(data => renderCat(data[0]))
+      .catch(showError);
 });
 
 function renderCat(catData) {
@@ -42,7 +46,13 @@ function renderCat(catData) {
         <p>${description}</p>
         <p>${temperament}</p>
         </div>`);
-  breedsSelect.classList.remove('hidden');
-  catInfo.classList.remove('hidden');
+    breedsSelect.classList.remove('hidden');
+    catInfo.classList.remove('hidden');
     loader.classList.add('hidden');
 };
+
+function showError(errorMessage) {
+  console.error(errorMessage);
+  error.classList.remove('hidden');
+  loader.classList.add('hidden');
+}
