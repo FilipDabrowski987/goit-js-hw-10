@@ -6,7 +6,8 @@ const catInfo = document.querySelector(".cat-info");
 const loader = document.querySelector(".loader");
 
     try {
-    loader.classList.remove('hidden');
+      loader.classList.remove('hidden');
+      breedsSelect.classList.add('hidden');
     fetchBreeds().then(data => renderSelect(data));
   } catch (error) {
     console.log(error);
@@ -19,10 +20,12 @@ function renderSelect(breeds) {
     })
     .join("");
     breedsSelect.insertAdjacentHTML("beforeend", markup);
+    breedsSelect.classList.remove('hidden');
     loader.classList.add('hidden');
 };
 
 breedsSelect.addEventListener('change', (event) => {
+    breedsSelect.classList.add('hidden');
     loader.classList.remove('hidden');
     fetchCatByBreed(event.target.value).then(data => renderCat(data[0]));
 });
@@ -38,5 +41,6 @@ function renderCat(catData) {
         <p>${description}</p>
         <p>${temperament}</p>
         </div>`);
+    breedsSelect.classList.remove('hidden');
     loader.classList.add('hidden');
 };
